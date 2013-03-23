@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_Discovery"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Discovery"/>
+
+    <item
+        android:id="@+id/menu_Activate"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Activate"/>
+
+    <item
+        android:id="@+id/menu_Deactivate"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Deactivate"/>
+
+    <item
+        android:id="@+id/menu_Button"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Button Press"/>
+
+</menu>
