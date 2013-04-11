@@ -1,0 +1,192 @@
+<html>
+  <head>
+    <title>MWM-CE Intents API documentations</title>
+    <style>
+      article {margin:1em; border:dashed 1px black; background-color:#f0ffff; padding:1em; }
+      h3, h4, p, dl {padding:0; margin:0; margin-bottom:0.5em; }
+      p, dl {margin-left:1em;}
+      dl {border:solid 1px #bbb; border-top:none; margin-bottom:1em; background-color:#e8f8f8; }
+      dl dt {border-top: solid 1px #bbb; padding: 0.25em; 0 0 0.25em; }
+      dl dd {padding: 0 0.25em 0.25em 0; }
+      code {display:block; padding:0.5em 1em; }
+    </style>
+  </head>
+  <body>
+    <h1>MWM-CE Intents API</h1>
+    <section>
+      <h2>Intents List</h2>
+      <article>
+        <h3>Broadcast from MWM-CE</h3>
+        <ul>
+          <li>org.metawatch.manager.APPLICATION_DISCOVERY</li>
+          <li>org.metawatch.manager.APPLICATION_ACTIVATE</li>
+          <li>org.metawatch.manager.APPLICATION_DEACTIVATE</li>
+          <li>org.metawatch.manager.BUTTON_PRESS</li>
+        </ul>
+      </article>
+      <article>
+        <h3>Received by MWM-CE</h3>
+        <ul>
+          <li>org.metawatch.manager.APPLICATION_UPDATE</li>
+          <li>org.metawatch.manager.APPLICATION_ANNOUNCE</li>
+          <li>org.metawatch.manager.APPLICATION_START</li>
+          <li>org.metawatch.manager.APPLICATION_STOP</li>
+          <li>org.metawatch.manager.NOTIFICATION</li>
+          <li>org.metawatch.manager.VIBRATE</li>
+          <li>org.metawatch.manager.SILENTMODE</li>
+          <li>org.metawatch.manager.WIDGET_UPDATE</li>
+        </ul>
+      </article>
+    </section>
+    <section>
+      <h2>Intent Details</h2>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_DISCOVERY</h3>
+        <p>Broadcast from MWM-CE, this intent should be listened for / recieved by any application that wishes to auto-register itself with MWM-CE.  The response should be an <strong>org.metawatch.manager.APPLICATION_ANNOUNCE</strong> intent.</p>
+        <p>This intent is generated from the <em>org.metawatch.manager.apps.AppManager.java</em> class</p>
+        <h4>Properties</h4>
+        <p><strong>None</strong></p>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_ACTIVATE</h3>
+        <p>Broadcast from MWM-CE only if the activated application was registered with a unique ID (See <strong>org.metawatch.manager.APPLICATION_ANNOUNCE</strong> for further details of registering).  Intent is sent when the application is 'activated' - that is, selected so that it is visible on the watch.</p>
+        <p>This intent is generated from the <em>org.metawatch.manager.apps.ExternalApp.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent 'extras' consists of a bundle with the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that has been activated.</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_DEACTIVATE</h3>
+        <p>Broadcast from MWM-CE only if the deactivated application was registered with a unique ID (See <strong>org.metawatch.manager.APPLICATION_ANNOUNCE</strong> for further details of registering).  Intent is sent when the application is 'deactivated' - that is, the application was the visible &amp; active applicaton on the watch, but no longer is.</p>
+        <p>This intent is generated from the <em>org.metawatch.manager.apps.ExternalApp.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent 'extras' consists of a bundle with the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that has been activated.</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.BUTTON_PRESS</h3>
+        <p>Broadcast from MWM-CE when a button on the watch is pressed whilst an application is active (i.e will not be broadcast when in watch mode, etc).</p>
+        <p>This intent is generated from the <em>org.metawatch.manager.apps.ExternalApp.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent will have the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that was active when the button was pressed</dd>
+          <dt>"button"</dt><dd>an Int containing the ID of the button that was pressed</dd>
+          <dt>"type"</dt><dd>an Int containing the 'type' of the button that was pressed (possibly 'how' the button was pressed - e.g. tapped, shot hold, long hold, etc.  Not clear from the code).</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_UPDATE</h3>
+        <p>Used to notify the MWM-CE of an update from an external application.  The external application needs to already be registered with MWM-CE, otherwise the update will be ignored (See <strong>org.metawatch.manager.APPLICATION_ANNOUNCE</strong> for further details of registering).</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that is updated.  If not specified, defaults to 'anonymous'</dd>
+          <dt>"array"</dt><dd>An array containing the data for the display bitmap containing the application data.  The array should be generated using the <code>byte[] image = BitmapUtil.bitmapToBuffer(&lt;bitmap&gt;);</code> function, taking a black &amp; white bitmap of 96x96 pixels (for the digital watch).</dt>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_ANNOUNCE</h3>
+        <p>Used to notify the MWM-CE of a new application with MetaWatch support.  This intent should be sent as a response to a <strong>org.metawatch.manager.APPLICATION_DISCOVERY</strong> intent broadcast by MWM-CE.  It is used to register an application with MWM-CE, usually with a unique ID.  If no ID is specified, the application will be registered anonymously, and MEM-CE will not broadcast application activity intents (activated, deactivated, button-press, etc).</p>
+        <p>Depending on the users preferences, the new application may or may not be enabled on the watch.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that is updated.  If not specified, defaults to 'anonymous'</dd>
+          <dt>"name"</dt><dd>A display name for the registering application.  If not specified, defaults to 'External App'.</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_START</h3>
+        <p>Used to notify the MWM-CE of the start of an application with MetaWatch support.  If the application has not already been registered (e.g. by <strong>org.metawatch.manager.APPLICATION_ANNOUNCE</strong>) then it will be registered first.  It will then be enabled, and displayed on the watch as the active application.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that is updated.  If not specified, defaults to 'anonymous'</dd>
+          <dt>"name"</dt><dd>A display name for the registering application.  If not specified, defaults to 'External App'.</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.APPLICATION_STOP</h3>
+        <p>Used to notify the MWM-CE of the termination of an application with MetaWatch support.  If the application has not been registered (or registered anonymously) this will be ignored.  If the application is registered, it will be removed from the MetaWatch display.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the ID of the application that is updated.  If not specified, defaults to 'anonymous'</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.NOTIFICATION</h3>
+        <p>Used to notify the MWM-CE of a new notification to be displayed on the MetaWatch.  A new MetaWatch notification will be generated from the data contained in the Intent.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain one of the following sets of properties</p>
+        <dl>
+          <dt>"oled1"</dt><dd>Analogue Watch only - a String containing data to be displayed on the top OLed display</dd>
+          <dt>"oled1a"</dt><dd>Analogue Watch only - a String containing data to be displayed on the top half of the top OLed display</dd>
+          <dt>"oled1b"</dt><dd>Analogue Watch only - a String containing data to be displayed on the bottom half of the top OLed display</dd>
+          <dt>"oled2"</dt><dd>Analogue Watch only - a String containing data to be displayed on the bottom OLed display</dd>
+          <dt>"oled2a"</dt><dd>Analogue Watch only - a String containing data to be displayed on the top half of the bottom OLed display</dd>
+          <dt>"oled2b"</dt><dd>Analogue Watch only - a String containing data to be displayed on the bottom half of the bottom OLed display</dd> 
+        </dl>
+        <dl>
+          <dt>"text"</dt><dd>a String to be displayed as the notification message</dd>
+          <dt>"title"</dt><dd>a String to be displayed as the notification title</dd>
+          <dt>"icon"</dt><dd>an Array representing a 16x16 black &amp; white image to use as the notification icon</dd>
+          <dt>"sticky"</dt><dd>a Boolean (defaulting to true) indicating whether the notification should be sticky or not</dd>
+        </dl>
+        <dl>
+          <dt>"array"</dt><dd>an Array containing an int array representing a bitmap of the whole notification.</dd>
+        </dl>
+        <dl>
+          <dt>"buffer"</dt><dd>a Buffer containing a byte array representing a bitmap of the whole notification.</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.VIBRATE</h3>
+        <p>Used to request the MWM-CE make the watch vibrate in a specific pattern.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"vibrate_on"</dt><dd>the number of milliseconds for the watch to vibrate (int, value in milliseconds, defaults to 500).</dd>
+          <dt>"vibrate_off"</dt><dd>the number of milliseconds for the watch to not vibrate (int, value in milliseconds, defaults to 500).</dd>
+          <dt>"vibrate_cycles"</dt><dd>the number of times to repeat the cycle (int, defaults to 3).</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.SILENTMODE</h3>
+        <p>Used to request the MWM-CE enable / disable Silent Mode.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"enabled"</dt><dd>a Boolean indicating whether Silent Mode should be enabled or not (defaults to false).</dd>
+        </dl>
+      </article>
+      <article>
+        <h3>org.metawatch.manager.WIDGET_UPDATE</h3>
+        <p>Used to notify the MWM-CE that a specific widget controlled by an external application has been updated.</p>
+        <p>This intent is received by the <em>org.metawatch.manager.ApiIntentReceiver.java</em> class, but the main processing / data extraction is handled by the <em>org.metawatch.manager.widgets.WidgetManager.java</em> class.</p>
+        <h4>Properties</h4>
+        <p>The intent must contain the following properties</p>
+        <dl>
+          <dt>"id"</dt><dd>a String containing the unique ID of the widget to be updated</dd>
+          <dt>"desc"</dt><dd>a String containing the description of the widget</dd>
+          <dt>"width"</dt><dd>an Int containing the width of the widget</dd>
+          <dt>"height"</dt><dd>an Int containing the height of the widget</dd>
+          <dt>"priority"</dt><dd>an Int containing the priority of the widget</dd>
+          <dt>"array"</dt><dd>An array containing the data for the widget bitmap.  The array should be generated using the <code>byte[] image = BitmapUtil.bitmapToBuffer(&lt;bitmap&gt;);</code> function, taking a black &amp; white bitmap of &lt;width&gt;x&lt;height&gt; pixels.</dt>
+        </dl>
+      </article>
+    </section>
+  </body>
+</html>
