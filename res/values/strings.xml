@@ -4,5 +4,17 @@
     <string name="app_name">MWIntentTester</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-
+    
+    <string name="screen_app_id_label">Target ID</string>
+    <string name="screen_app_id_hint">App ID</string>
+    <string name="screen_image_descriptor">Screen placeholder for displaying incoming images</string>
+    <string name="screen_button_tl">6</string>
+    <string name="screen_button_ml">5</string>
+	<string name="screen_button_bl">4</string>
+	<string name="screen_button_tr">1</string>
+	<string name="screen_button_mr">2</string>
+    <string name="screen_button_br">3</string>
+	<string name="screen_button_announce">Discover</string>
+	<string name="screen_button_activate">Activate</string>
+	<string name="screen_button_deactivate">Deactivate</string>
 </resources>

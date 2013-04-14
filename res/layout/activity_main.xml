@@ -1,14 +1,159 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
+        android:layout_marginBottom="10dp" >
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/screen_app_id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/screen_app_id_label"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <EditText
+            android:id="@+id/screen_app_id"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.17"
+            android:hint="@string/screen_app_id_hint"
+            android:inputType="text" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:baselineAligned="false" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/screen_button_tl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_tl" />
+
+            <Button
+                android:id="@+id/screen_button_ml"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_ml" />
+
+            <Button
+                android:id="@+id/screen_button_bl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_bl" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7" >
+
+            <ImageView
+                android:id="@+id/screen_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/screen_image_descriptor"
+                android:src="@drawable/ic_launcher" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/screen_button_tr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_tr" />
+
+            <Button
+                android:id="@+id/screen_button_mr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_mr" />
+
+            <Button
+                android:id="@+id/screen_button_br"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick"
+                android:text="@string/screen_button_br" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" >
+    
+        <Button
+            android:id="@+id/screen_button_annouce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="0.33"
+            android:onClick="sendDiscoveryIntent"
+            android:text="@string/screen_button_announce" />
+        <Button
+            android:id="@+id/screen_button_activate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:layout_marginBottom="10dp"
+            android:onClick="sendActivateIntent"
+            android:text="@string/screen_button_activate" />
+        <Button
+            android:id="@+id/screen_button_deactivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
+            android:layout_marginBottom="10dp"
+            android:onClick="sendDeactivateIntent"
+            android:text="@string/screen_button_deactivate" />
+	</LinearLayout>
+        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp" >
+
+		<EditText
+		    android:id="@+id/screen_log_area"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:textSize="12sp"
+		    android:inputType="textMultiLine" />
+		
+	</LinearLayout>
+    
+</LinearLayout>
