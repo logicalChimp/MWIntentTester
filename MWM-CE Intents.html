@@ -70,13 +70,30 @@
       <article>
         <h3>org.metawatch.manager.BUTTON_PRESS</h3>
         <p>Broadcast from MWM-CE when a button on the watch is pressed whilst an application is active (i.e will not be broadcast when in watch mode, etc).</p>
+		<p>Note that button numbers are different between Developer firmware (3.x series) and Production (1.x series).  If your app relies on receiving button presses, you should allow the user to specify which watch type they have (or assume it is production unless otherwise indicated).  Note that 'reserved' buttons (those not available to external apps) are also different between firmware releases.</p>
         <p>This intent is generated from the <em>org.metawatch.manager.apps.ExternalApp.java</em> class</p>
         <h4>Properties</h4>
         <p>The intent will have the following properties</p>
         <dl>
           <dt>"id"</dt><dd>a String containing the ID of the application that was active when the button was pressed</dd>
-          <dt>"button"</dt><dd>an Int containing the ID of the button that was pressed</dd>
-          <dt>"type"</dt><dd>an Int containing the 'type' of the button that was pressed (possibly 'how' the button was pressed - e.g. tapped, shot hold, long hold, etc.  Not clear from the code).</dd>
+          <dt>"button"</dt><dd>an Int containing the ID of the button that was pressed.  On developer firmware (3.x series) the buttons are:
+            <ul>
+			  <li>0 - top right (not available to external applications)</li>
+			  <li>1 - middle right</li>
+			  <li>2 - bottom right</li>
+			  <li>3 - bottom left (not available to external applications)</li>
+			  <li>4 - middle left</li>
+			  <li>5 - top left</li>
+			</ul>
+	      </dd>
+          <dt>"type"</dt><dd>an Int containing the 'type' of the button that was pressed.  Expected values are:
+		    <ul>
+			  <li>0 - sent as soon as the button is pressed</li>
+			  <li>1 - pressed and released immediately</li>
+			  <li>2 - pressed and released after a short hold (not yet verified)</li>
+			  <li>3 - pressed and released after a long hold (not yet verified)</li>
+			</ul>
+	      </dd>
         </dl>
       </article>
       <article>
