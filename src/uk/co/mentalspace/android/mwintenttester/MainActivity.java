@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements OnClickListener {
     };
 	private boolean mwReceiverIsRegistered = false;
 		
-	public static final String MW_ANNOUNCE = "org.metawatch.manager.APPLICATION_ANNOUCE";
+	public static final String MW_ANNOUNCE = "org.metawatch.manager.APPLICATION_ANNOUNCE";
 	public static final String MW_UPDATE = "org.metawatch.manager.APPLICATION_UPDATE";
 	public static final String MW_START = "org.metawatch.manager.APPLICATION_START";
 	public static final String MW_STOP = "org.metawatch.manager.APPLICATION_STOP";
@@ -151,6 +151,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		String appId = getAppId();
 		b.putString("id", appId);
 		intent.putExtras(b);
+		intent.setFlags(Intent.FLAG_DEBUG_LOG_RESOLUTION);
 		this.sendBroadcast(intent);
 		log("Send activate intent to: " + appId);
     }
